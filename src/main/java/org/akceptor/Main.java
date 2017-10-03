@@ -18,7 +18,7 @@ public class Main {
 	/**
 	 * Characters used to separate words
 	 */
-	private static final String SEPARATOR_REGEX = "[, ;]";
+	private static final String SEPARATOR_REGEX = "[, .]";
 
 	/**
 	 * @param args
@@ -33,7 +33,7 @@ public class Main {
 			try (Stream<String> lines = Files.lines(path)) { // Auto close
 				// WordCount
 				Map<String, Long> limitedSortedWordCount = limitSortedMap(size,
-						sortByValues(countWordsInSteram(lines)));
+						sortByValues(countWordsInStream(lines)));
 				// Print
 				limitedSortedWordCount.forEach((k, v) -> System.out.println(k + " - " + v));
 			} catch (NoSuchFileException nsfe) {
@@ -51,7 +51,7 @@ public class Main {
 	 * @param stringStream
 	 * @return map where each word is a key and word quantity is a value
 	 */
-	protected static Map<String, Long> countWordsInSteram(Stream<String> stringStream) {
+	protected static Map<String, Long> countWordsInStream(Stream<String> stringStream) {
 		return stringStream.flatMap(line -> Arrays.stream(line.trim().split(SEPARATOR_REGEX)))
 				.map(word -> word.toLowerCase().trim()).filter(word -> word.length() > 0)
 				.map(word -> new SimpleEntry<>(word, 1))
